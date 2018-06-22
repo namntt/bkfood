@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Insert title here</title>
+</head>
+<body>
+	<!-- <div th:replace="/common/header :: header"></div> -->
+	<form th:action="@{/admin/update-product}" th:object="${updateProductForm}" method="post" enctype="multipart/form-data">
+		<input type="hidden"  name="name" th:field="*{id}"/>
+		<label th:text="#{product.name}"></label>
+		<input type="text"  name="name" th:field="*{name}"/>
+		<label th:text="#{product.price}"></label>
+		<input type="text"  name="price" th:field="*{price}"/>
+		<label th:text="#{product.description}"></label>
+		<input type="text"  name="description" th:field="*{description}"/>
+		<label th:text="#{product.image}"></label>
+		<input type="file" required="required" class="form-control" name="file" />
+		<select th:field="*{typeId}">
+			<option th:each="subCategory : ${listSubCategory}" th:value="${subCategory.getId()}" th:text="${subCategory.getName()}"></option>
+		</select>
+		<button type="submit">Them</button>
+	</form>
+	
+	
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:replace="admin/common/header :: header"></div> 
+	<a th:href="@{/admin/add-product}" th:text="#{admin.action.add}"></a>
+	<div>
+		<form th:action="@{/admin/search-product}" method="get" th:object="${searchProductDTO}" id="searchProductForm">
+			<input type="text" name="name" th:field="*{name}" />
+			<input type="hidden" th:field="*{page}" />	
+ 			<button type="submit">Tim kiem</button>	
+		</form>
+	</div>
+	
+	<table>
+		<tr>
+			<th th:text="#{product.id}"></th>
+			<th th:text="#{product.name}"></th>
+			<th th:text="#{product.description}"></th>	
+			<th th:text="#{product.price}"></th>
+			<th colspan="3">Action</th>
+			
+		</tr>
+		<tr th:each="product : ${listProduct}">
+			<td th:text="${product.id}"></td>
+			<td th:text="${product.name}"></td>
+			<td th:text="${product.description}"></td>
+			<td th:text="${product.price}"></td>
+			<td><a th:href="@{'/admin/product-detail/'+${product.id}}" th:text="#{admin.action.viewdetail}">Detail</a></td>
+			<td><a th:href="@{'/admin/update-product/'+${product.id}}" th:text="#{admin.action.edit}">Edit</a></td>
+			<td><a th:href="@{'/admin/delete-product/'+${product.id}}" th:text="#{admin.action.delete}">Delete</a></td>
+			
+			
+		</tr>
+	</table>
+	<div th:if="${listProduct} != null">
+			<span th:each="i : ${#numbers.sequence( 1, searchProductDTO.totalPage) }">
+				<a style="cursor: pointer;" th:onclick="'navigatePage(' + ${i} + ')'" th:text="${i}"></a>
+			</span>
+			
+		
+	</div>
+	<script th:src="@{/admin/js/jquery-3.3.1.min.js}"></script>
+	<script>
+			function navigatePage(page) {
+				$("#searchProductForm #page").val(page);
+				$("#searchProductForm").submit();
+			}
+	</script>
+	
+	
+</body>
+</html>
